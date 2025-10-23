@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Course Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>📚 Course Manager</h1>
+        <div id="auth-status">
+            <span id="welcome-message" style="display: none;"></span>
+            <button id="logout-btn" style="display: none;">Logout</button>
+        </div>
+    </header>
+
+    <main id="app-container">
+        <section id="public-view" class="view active">
+            <h2>Welcome!</h2>
+            <p>Please log in or register to continue.</p>
+            <button onclick="showView('login-view')">Login</button>
+            <button onclick="showView('register-view')">Register</button>
+        </section>
+
+        <section id="register-view" class="view">
+            <h2>Register New User</h2>
+            <form id="register-form">
+                <input type="text" id="reg-name" placeholder="Name" required>
+                <input type="email" id="reg-email" placeholder="Email" required>
+                <input type="password" id="reg-password" placeholder="Password" required>
+                <select id="reg-role" required>
+                    <option value="STUDENT">Student</option>
+                    <option value="INSTRUCTOR">Instructor</option>
+                    <option value="ADMIN">Admin</option>
+                </select>
+                <button type="submit">Register</button>
+            </form>
+            <p class="error" id="register-error"></p>
+            <button onclick="showView('public-view')">Back</button>
+        </section>
+
+        <section id="login-view" class="view">
+            <h2>Login</h2>
+            <form id="login-form">
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p class="error" id="login-error"></p>
+            <button onclick="showView('public-view')">Back</button>
+        </section>
+
+        <section id="admin-view" class="view dashboard">
+            <h2>Admin Dashboard</h2>
+            <div class="dashboard-menu">
+                <button onclick="showAdminSubView('approve-courses-view')">Approve Courses</button>
+                <button onclick="showAdminSubView('reports-view')">Generate Reports</button>
+            </div>
+            
+            <div id="admin-sub-views">
+                <section id="approve-courses-view" class="sub-view active">
+                    <h3>Approve/Reject Courses</h3>
+                    <table id="unapproved-courses-table">
+                        <thead><tr><th>ID</th><th>Title</th><th>Instructor</th><th>Action</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                    <p id="approve-msg"></p>
+                </section>
+
+                <section id="reports-view" class="sub-view">
+                    <h3>System Reports</h3>
+                    <button onclick="generateReports()">Run Reports (Parallel)</button>
+                    <div id="reports-output"></div>
+                </section>
+            </div>
+        </section>
+
+        <section id="instructor-view" class="view dashboard">
+            <h2>Instructor Dashboard</h2>
+            <div class="dashboard-menu">
+                <button onclick="showInstructorSubView('create-course-view')">Create Course</button>
+                <button onclick="showInstructorSubView('manage-courses-view')">Manage My Courses</button>
+            </div>
+            
+            <div id="instructor-sub-views">
+                <section id="create-course-view" class="sub-view active">
+                    <h3>Create New Course</h3>
+                    <form id="create-course-form">
+                        <input type="text" id="cc-title" placeholder="Title" required>
+                        <textarea id="cc-description" placeholder="Description" required></textarea>
+                        <input type="number" id="cc-duration" placeholder="Duration (months)" required>
+                        <input type="number" id="cc-fee" placeholder="Fee (e.g., 99.99)" step="0.01" required>
+                        <input type="text" id="cc-category" placeholder="Category" required>
+                        <button type="submit">Create Course</button>
+                    </form>
+                    <p class="success" id="create-course-msg"></p>
+                </section>
+
+                <section id="manage-courses-view" class="sub-view">
+                    <h3>My Courses</h3>
+                    <ul id="instructor-courses-list">
+                        </ul>
+                </section>
+                
+                <section id="update-course-form-view" class="sub-view">
+                    <h3>Update Course</h3>
+                    <form id="update-course-form">
+                        <input type="hidden" id="uc-id">
+                        <input type="text" id="uc-title" placeholder="New Title" required>
+                        <textarea id="uc-description" placeholder="New Description" required></textarea>
+                        <input type="number" id="uc-duration" placeholder="New Duration (months)" required>
+                        <input type="number" id="uc-fee" placeholder="New Fee" step="0.01" required>
+                        <input type="text" id="uc-category" placeholder="New Category" required>
+                        <button type="submit">Update Course</button>
+                    </form>
+                    <p class="success" id="update-course-msg"></p>
+                    <button onclick="showInstructorSubView('manage-courses-view')">Cancel</button>
+                </section>
+            </div>
+        </section>
+
+        <section id="student-view" class="view dashboard">
+            <h2>Student Dashboard</h2>
+            <div class="dashboard-menu">
+                <button onclick="showStudentSubView('view-courses-view')">View Courses</button>
+                <button onclick="showStudentSubView('my-enrollments-view')">My Enrollments</button>
+            </div>
+
+            <div id="student-sub-views">
+                <section id="view-courses-view" class="sub-view active">
+                    <h3>Available Courses</h3>
+                    <table id="available-courses-table">
+                        <thead><tr><th>ID</th><th>Title</th><th>Fee</th><th>Action</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                    <p id="enroll-msg" class="success"></p>
+                </section>
+
+                <section id="my-enrollments-view" class="sub-view">
+                    <h3>My Enrollments</h3>
+                    <table id="my-enrollments-table">
+                        <thead><tr><th>ID</th><th>Course</th><th>Progress (%)</th><th>Action</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                    <p id="progress-msg" class="success"></p>
+                </section>
+            </div>
+        </section>
+        
+        <section id="progress-update-view" class="view">
+            <h2>Update Progress</h2>
+            <form id="update-progress-form">
+                <input type="hidden" id="up-enrollment-id">
+                <p>Course: <strong id="up-course-title"></strong></p>
+                <input type="number" id="up-progress" placeholder="New Progress (0-100)" min="0" max="100" required>
+                <button type="submit">Update</button>
+            </form>
+            <button onclick="showStudentSubView('my-enrollments-view')">Cancel</button>
+        </section>
+        
+    </main>
+    
+    <script src="app.js"></script>
+</body>
+</html>

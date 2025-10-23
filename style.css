@@ -1,0 +1,136 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin: 0;
+}
+
+/* Main Layout */
+#app-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* View Management */
+.view {
+    display: none;
+    padding: 20px 0;
+}
+
+.view.active {
+    display: block;
+}
+
+/* Forms and Inputs */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="number"],
+select,
+textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Dashboard Specifics */
+.dashboard-menu {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+.dashboard-menu button {
+    background-color: #6c757d;
+}
+
+.dashboard-menu button:hover {
+    background-color: #5a6268;
+}
+
+.sub-view {
+    display: none;
+}
+
+.sub-view.active {
+    display: block;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #e9ecef;
+    font-weight: bold;
+}
+
+/* Messages */
+.error {
+    color: #dc3545;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.success {
+    color: #28a745;
+    margin-top: 10px;
+    font-weight: bold;
+}

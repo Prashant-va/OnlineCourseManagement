@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: OnlineCourseManagement
+  datasource:
+    # 💥 CRUCIAL FIX: Includes parameters for stable MySQL connection
+    url: jdbc:mysql://localhost:3306/course_management?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: Pavitra@22 # Ensure this is your correct password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    # 'update' creates/updates tables automatically based on entities
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  port: 8080 # Running on port 8080
